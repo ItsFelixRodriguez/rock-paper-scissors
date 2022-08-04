@@ -11,7 +11,7 @@ if (rndChoice == 1) {
     console.log ( "Rock");
 } else if (rndChoice == 2){
     console.log ("Paper");
-} else if (rndChoice== 3) {
+} else  {
     console.log("Scissors")
 }
 
