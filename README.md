@@ -26,4 +26,3 @@ This is my first JavaScript Project. I am excited to finally apply some of thing
     return ("You Lose!")
     else return ("A draw, try again!")
 
-    
