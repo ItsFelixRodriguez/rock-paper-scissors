@@ -1,81 +1,64 @@
-// RPS Reloaded JS Scripts
+let playerScore = 0
+let computerScore = 0
+const buttons = document.querySelectorAll('input')
 
-let playerScore = 0 ;
-let computerScore = 0; 
-
-function getComputerChoice () {
-    let randomNumber = Math.floor(Math.random()*3)+1;
-    if (randomNumber === 1) {
-        return "rock";
-    }
-    else if (randomNumber === 2) {
-        return 'paper';
-    }
-    else if (randomNumber === 3){
-        return "scissors"
-    }
+function computerPlay() {
+    let choices = ['rock', 'paper', 'scissors']
+    return choices[Math.floor(Math.random() * choices.length)]
 }
 
-function playRound () {
- 
-    var playerSelection = window.prompt("Choose your Weapon!", " ");
-    playerSelection = playerSelection.toLowerCase();
-    console.log (playerSelection);
-    function getComputerChoice () {
-        let randomNumber = Math.floor(Math.random()*3)+1;
-        if (randomNumber === 1) {
-            return "rock";
-        }
-        else if (randomNumber === 2) {
-            return 'paper';
-        }
-        else if (randomNumber === 3){
-            return "scissors"
+function disableButtons() {
+    buttons.forEach(elem => {
+        elem.disabled = true
+    })
+}
+
+function playRound(playerSelection) {
+    let computerSelection = computerPlay()
+    let result = ""
+
+    if ((playerSelection == 'rock' && computerSelection == 'scissors') ||
+        (playerSelection == 'scissors' && computerSelection == 'paper') ||
+        (playerSelection == 'paper' && computerSelection == 'rock')) {
+        
+        playerScore += 1
+        result = ('You win! ' + playerSelection + ' beats ' + computerSelection
+            + "<br><br>Player score: " + playerScore + "<br>Computer score: " + computerScore)
+
+        if (playerScore == 5) {
+            result += '<br><br>You won the game! Reload the page to play again'
+            disableButtons()
         }
     }
-   computerSelection = getComputerChoice ();
-   console.log (computerSelection);
-if ((playerSelection === 'rock') && (computerSelection === 'scissors')) {
-    playerScore ++;
-    return `You Win! ${playerSelection} beats ${computerSelection}`;
-
-} 
-else if ((playerSelection === 'paper') && (computerSelection === 'rock')){
-    playerScore++;
-    return `You Win! ${playerSelection} beats ${computerSelection}`;
-   
-}
- else if ((playerSelection === 'scissors') && (computerSelection === 'paper')) {
-    playerScore++
-    return `You Win! ${playerSelection} beats ${computerSelection}`;
-    
-}
- else if (computerSelection === playerSelection) {
-    return "A tie!";
-}
- else {
-    computerScore ++
-    return `You lose! ${computerSelection} beats ${playerSelection}`;
- }
-}
-function game (selection) {
-    if ((selection !== 'rock') && (selection !== 'paper') & (selection !== 'scissors')){
-        alert("You have entered some bullshit, you need to select either rock, paper or scissors");
-    } else {
-        return playRound (playerSelection, computerSelection());
-    }
-    for (let i = 0; i < 5; i++){
-        playRound ()
-        console.log(game);
-        console.log( `Player score: ${playerScore} & Computer Score: ${computerScore}`);
-    }
-    if (playerScore > computerScore) {
-        console.log("YOU ARE THE WINNER! 😄");
-    }
-    else if(playerScore < computerScore){
-        console.log("The computer won!");
+    else if (playerSelection == computerSelection) {
+        result = ('It\'s a tie. You both chose ' + playerSelection
+            + "<br><br>Player score: " + playerScore + "<br>Computer score: " + computerScore)
     }
     else {
-        console.log("It's a draw!");
+        computerScore += 1
+        result = ('You lose! ' + computerSelection + ' beats ' + playerSelection
+            + "<br><br>Player score: " + playerScore + "<br>Computer score: " + computerScore)
+
+        if (computerScore == 5) {
+            result += '<br><br>I won the game! Reload the page to play again'
+            disableButtons()
+        }
+    }
+
+    document.getElementById('result').innerHTML = result
+    return
 }
-}
+
+buttons.forEach(button =>{
+    button.addEventListener('click', function(){
+        playRound(button.value)
+    })
+})
+
+
+
+
+
+
+
+
